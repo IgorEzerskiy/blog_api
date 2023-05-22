@@ -5,21 +5,23 @@ from blog_api.models import Topic, Post, Comment
 
 
 class TopicSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = Topic
-        fields = ['title', 'description', 'prefers']
-
+        fields = ['id', 'title', 'description', 'prefers']
 
 # Comment serializers
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     created_at = serializers.DateField(read_only=True)
+    author = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = Comment
-        fields = ['created_at', 'content', 'contains', 'author']
-
+        fields = ['id', 'created_at', 'content', 'contains', 'author']
 
 # Post serializers
 
@@ -29,7 +31,8 @@ class PostSerializer(serializers.ModelSerializer):
     slug = serializers.SlugField(read_only=True)
     created_at = serializers.DateField(read_only=True)
     updated_at = serializers.DateTimeField(read_only=True)
-
+    author = serializers.PrimaryKeyRelatedField(read_only=True)
+    
     class Meta:
         model = Post
         fields = ['id', 'slug', 'title', 'text', 'created_at',
